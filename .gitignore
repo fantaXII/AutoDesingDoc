@@ -1,0 +1,50 @@
+# Generated design docs (stored in separate docs repo)
+docs/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Distribution / build
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+
+# Test & coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Type checking
+.mypy_cache/
+.pytype/
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+
+# oh-my-claudecode (local tool state, not project files)
+.omc/

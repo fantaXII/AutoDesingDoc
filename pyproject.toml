@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "auto-design-doc"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.40.0",
+    "PyGithub>=2.3.0",
+    "pathspec>=0.12.0",
+    "pyyaml>=6.0.2",
+    "python-dotenv>=1.0.0",
+    "httpx>=0.27.0",
+    "click>=8.1.0",
+]
+
+[project.scripts]
+autodesign = "src.main:main"
+autodesign-validate = "src.validate:validate"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "github_api: requires GITHUB_TOKEN and real GitHub API",
+    "llm: requires ANTHROPIC_API_KEY and real LLM",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]

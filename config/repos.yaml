@@ -1,0 +1,68 @@
+repositories:
+  - name: my-backend
+    type: github
+    url: https://github.com/org/my-backend
+    branch: main
+    token_env: GITHUB_TOKEN
+
+  # - name: game-engine
+  #   type: perforce
+  #   server: perforce.company.com:1666
+  #   depot: //depot/game-engine/main
+  #   client_env: P4CLIENT
+  #   password_env: P4PASSWD
+
+filters:
+  exclude_dirs:
+    - node_modules
+    - .venv
+    - __pycache__
+    - .git
+    - dist
+    - build
+    - .pytest_cache
+    - .mypy_cache
+    - .ruff_cache
+  exclude_extensions:
+    - .pyc
+    - .pyo
+    - .jpg
+    - .jpeg
+    - .png
+    - .gif
+    - .svg
+    - .ico
+    - .bmp
+    - .webp
+    - .exe
+    - .dll
+    - .so
+    - .dylib
+    - .whl
+    - .egg
+    - .zip
+    - .tar
+    - .gz
+    - .bin
+    - .lock
+  exclude_files:
+    - package-lock.json
+    - yarn.lock
+    - "*.min.js"
+    - "*.min.css"
+    - "*.map"
+
+thresholds:
+  create: 25
+  delete: 10
+
+llm:
+  map_model: claude-haiku-4-5
+  reduce_model: claude-sonnet-4-6
+  max_tokens_per_file: 4000
+  temperature: 0.2
+
+output:
+  docs_repo_url: https://github.com/org/auto-design-doc-orchestrator
+  docs_path: docs/
+  global_context_file: docs/CLAUDE.md

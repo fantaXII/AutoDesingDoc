@@ -1,0 +1,48 @@
+name: Generate Design Docs
+on:
+  repository_dispatch:
+    types: [source-repo-updated]
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: 'Target repo name (leave empty for all)'
+        required: false
+        default: ''
+      commit_sha:
+        description: 'Commit SHA to analyze'
+        required: false
+        default: ''
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Auto Design Doc Generator
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          REPO_NAME: ${{ github.event.client_payload.repo_name || inputs.repo_name }}
+          COMMIT_SHA: ${{ github.event.client_payload.commit_sha || inputs.commit_sha }}
+        run: |
+          python -m src.main \
+            --config config/repos.yaml \
+            --repo "$REPO_NAME" \
+            --commit "$COMMIT_SHA"
+
+      - name: Validate generated docs
+        run: python -m src.validate docs/ --strict
